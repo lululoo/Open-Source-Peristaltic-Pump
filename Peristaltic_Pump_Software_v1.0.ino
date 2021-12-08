@@ -166,7 +166,7 @@ void setup(){
  menu[8].suffix = "OK!";
 
  menu[9].name_ = "USB Ctrl";
- menu[9].type = OPTION;
+ menu[9].type = ACTION;
  menu[9].value = 0;
  menu[9].lim = 0;
  menu[9].suffix = "ON!";
@@ -292,6 +292,7 @@ if (in_action){
   }
   break;
 
+  // save setting
   case 8:
    for (int i=0; i <= menu_items_limit; i++){
       eepromWriteInt(i*2,menu[i].value);
@@ -300,6 +301,7 @@ if (in_action){
    menu_left = true;
   break;
   
+  // usb control
   case 9:
   while (Serial.available()) {
     inChar = (char)Serial.read();     // get the new byte:
@@ -377,7 +379,7 @@ if (!in_menu){ // no menu selected
 }
 
 /// CLOSE ////////////////////////////////////////////////////////////////////////////////
-
+// This block is called when you click on the button to "leave" the menu for a particular setting
 if (menu_left){
   lcd.noBlink();
   if (menu[menu_number_1].type == ACTION){
@@ -387,6 +389,7 @@ if (menu_left){
     encoder->setAccelerationEnabled(false);
   }
   
+  // V unit
   if (menu_number_1 == 2){
     menu[menu_number_1-1].suffix = menu[menu_number_1].options[menu[menu_number_1].value];
       if (menu[1].suffix=="uL"){
@@ -396,6 +399,7 @@ if (menu_left){
        }
   }
 
+  // S Unit
   if (menu_number_1 == 4){
     menu[menu_number_1-1].suffix = menu[menu_number_1].options[menu[menu_number_1].value];
     if (menu[3].suffix=="uL/min"){
@@ -404,6 +408,8 @@ if (menu_left){
       menu[3].decimals = 1;
     }
   }
+
+  // Direction
   if (menu_number_1 == 5){ //Change Direction
     if (menu[5].value == 0){
       digitalWrite(MOTOR_DIR_PIN,LOW); 
@@ -411,6 +417,7 @@ if (menu_left){
       digitalWrite(MOTOR_DIR_PIN,HIGH);
     }
   }
+
   steps = steps_calc(menu[1].value, menu[2].value, menu[7].value, menu[1].decimals);
   delay_us = delay_us_calc(menu[3].value, menu[4].value, menu[7].value, menu[3].decimals);
   
