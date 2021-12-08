@@ -1,7 +1,7 @@
 // include the library code:
 #include <LiquidCrystal.h> //https://www.arduino.cc/en/Reference/LiquidCrystal -> LCD control
-#include <ClickEncoder.h> //https://github.com/0xPIT/encoder/blob/master/README.md -> Encoder processing (timer based)
-#include <TimerOne.h> //required for ClickEncoder.h 
+#include "ClickEncoder.h" //https://github.com/0xPIT/encoder/blob/master/README.md -> Encoder processing (timer based)
+#include "TimerOne.h" //required for ClickEncoder.h 
 #include <EEPROM.h> //write and read EEPROM (to save and load settings)
 
 
@@ -65,7 +65,7 @@ const unsigned int CALIBR_DELAY_US = (CALIBR_DURATION * MICROSEC_PER_SEC)/(CALIB
 
 //MENU ---------------------------------------------------------------------------------------
 #define MAX_NUM_OF_OPTIONS 4
-#define NUM_OF_MENU_ITEMS 10
+#define NUM_OF_MENU_ITEMS 11
 #define VALUE_MAX_DIGITS 4
 int menu_number_1=0;
 int menu_number_2=1;
@@ -89,8 +89,8 @@ typedef struct
   char* options[4];
   char* suffix;
 }menu_item;
-int menu_items_limit = 10-1;
-menu_item menu[10];
+int menu_items_limit = NUM_OF_MENU_ITEMS - 1;
+menu_item menu[NUM_OF_MENU_ITEMS];
 
 
 //███ SETUP ████████████████████████████████████████████████████████████████████████████████████████████████████
@@ -166,10 +166,16 @@ void setup(){
  menu[8].suffix = "OK!";
 
  menu[9].name_ = "USB Ctrl";
- menu[9].type = ACTION;
+ menu[9].type = OPTION;
  menu[9].value = 0;
  menu[9].lim = 0;
  menu[9].suffix = "ON!";
+
+ menu[10].name_ = "Interval"; 
+ menu[10].type = VALUE;
+ menu[10].value = 0;
+ menu[10].lim = 300;
+ menu[10].suffix = "min";
 
   for (int i=0; i <= menu_items_limit; i++){
       menu[i].value = eepromReadInt(i*2);
