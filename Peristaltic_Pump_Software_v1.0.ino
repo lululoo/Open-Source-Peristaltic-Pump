@@ -279,13 +279,22 @@ if (menu_entered){
 if (in_action){
   switch (menu_number_1){
   case 0: //Start
-  if (menu[6].value == 0){ //Dose
+
+  //Dose
+  if (menu[6].value == 0){ 
     if (dose(steps, delay_us, step_counter)){
       exit_action_menu();
     }
-  } else if (menu[6].value == 1){ //Pump
+  } 
+  //Pump
+  else if (menu[6].value == 1){ 
+    int interval = menu[10].value;
+    // do something with interval?
+    
     pump(delay_us);
-  } else if (menu[6].value == 2){ //Cal.
+  } 
+  //Cal.
+  else if (menu[6].value == 2){ 
     if (dose(CALIBR_STEPS, CALIBR_DELAY_US, step_counter)){
       exit_action_menu();
     }
@@ -416,6 +425,15 @@ if (menu_left){
     }else{
       digitalWrite(MOTOR_DIR_PIN,HIGH);
     }
+  }
+
+  // Interval
+  if (menu_number_1 == 10){
+    // do something with menu[10].value? set some variables? idk    
+
+    // just to show it does something when you leave the menu:    
+    menu[10].value = 20;
+    update_lcd();
   }
 
   steps = steps_calc(menu[1].value, menu[2].value, menu[7].value, menu[1].decimals);
