@@ -1,3 +1,8 @@
+//
+// Go to https://wokwi.com/arduino/projects/317374699016290880
+// and copy this whole file into "sketch.ino"
+//
+
 // include the library code:
 #include <LiquidCrystal.h> //https://www.arduino.cc/en/Reference/LiquidCrystal -> LCD control
 #include "ClickEncoder.h" //https://github.com/0xPIT/encoder/blob/master/README.md -> Encoder processing (timer based)
